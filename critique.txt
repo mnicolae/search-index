@@ -1,0 +1,22 @@
+In terms of error handling, freq_list.c succesfully handles all but one possible 
+error. For create_node, I suggest declaring the count variable as an unsigned int, 
+such that passing a negative value would be reported as an error. indexfile.c 
+succesfully makes sure that the command line arguments are passed correctly and 
+outputs to standard error if not.
+ 
+In terms of function design, there are a few minor improvements that can be made. 
+write_list and read_list are lengthy and both can be broken down into two separate 
+functions. That is, one that writes/reads the linked list and one that writes/reads
+the array of file names. Each function would be doing one thing only and would be 
+easier to maintain and debug. Also, in read_list, the use of two file pointer 
+variables (list_fp and fname_fp) is not necessary. Using one can save memory space 
+and improve readibility. Finally, the initialization of the filenames array in 
+init_filenames may be done without a for loop, improving the time efficiency of 
+this function. 
+
+Lastly, I must discuss the data structure design. The current implementation works 
+correctly and fast enough for indexing and querying words from small to medium-sized
+files. Regardless, the linear bound of complexity for creating an index and 
+querying words is to be considered. But given that this is a C program, I believe 
+that this data structure is strong enough for the current specifications. It can 
+also be augmented to support additional features.
