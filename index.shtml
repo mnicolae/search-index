@@ -28,7 +28,7 @@
 	will use a sorted linked list to store the words.  The picture below 
 	shows what the linked list looks like.</p>
 	
-	<img src="a2_files/linkedlist.jpg" alt="Linkedlist" width="600">
+	<img src="linkedlist.jpg" alt="Linkedlist" width="600">
 	
 	<p>Each list node contains three elements: the word, an array that 
 	stores the number of times the word has been seen in each file, and a 
