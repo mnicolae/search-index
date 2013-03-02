@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en"><head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>untitled</title>
 	<meta name="generator" content="TextMate http://macromates.com/">
 	<meta name="author" content="reid">
 	<title>Assignment 2: Creating a Search Index</title>
 </head>
+
 <body>
 	<h1>Assignment 2: Creating a Search Index</h1>
 	<p><b>Due: Tuesday, Feb 14, 10 p.m.</b></p>
@@ -14,85 +14,102 @@
 	<h2>Introduction</h2>
 	
 	<p>One of the ways that Google makes searching the web so fast is that 
-when it finds pages on the internet it makes a copy of them and creates a
- search index.  (Of course Google does a *lot* more, but we have to 
-start somewhere.) Your task in this assignment is to create a search 
-index for a set of files based on word frequency.</p>  
+	when it finds pages on the internet it makes a copy of them and creates a
+ 	search index.  (Of course Google does a *lot* more, but we have to 
+	start somewhere.) Your task in this assignment is to create a search 
+	index for a set of files based on word frequency.</p>  
 	
 	<h2>Data structures</h2>
 	
 	<p>We will use a simple algorithm to create an index for a set of 
-files.  We will simply count the frequency of each word in each of the 
-files.  This means that we need a data structure to keep track of this 
-information. Since we don't know how many words will be in an index, we 
-will use a sorted linked list to store the words.  The picture below 
-shows what the linked list looks like.</p>
+	files.  We will simply count the frequency of each word in each of the 
+	files.  This means that we need a data structure to keep track of this 
+	information. Since we don't know how many words will be in an index, we 
+	will use a sorted linked list to store the words.  The picture below 
+	shows what the linked list looks like.</p>
 	
 	<img src="a2_files/linkedlist.jpg" alt="Linkedlist" width="600">
 	
 	<p>Each list node contains three elements: the word, an array that 
-stores the number of times the word has been seen in each file, and a 
-pointer to the next element of the list.  There is another data 
-structure which is an array of strings, that stores the name of each 
-file that is indexed.  The index of a file name corresponds to the index
- of the <code>freq</code> array in a list node.  Storing the file names separately means that we don't need to store the name of each file many times.</p>
-	<p>In the diagram above, four words have been extracted from two files.  The two files are called <code>Menu1</code> and <code>Menu2</code>.  The linked list shows that the word spinach appears 2 times in the file <code>Menu1</code> and 6 times in the file <code>Menu2</code>.  Similarly the word potato appears 11 times in the file <code>Menu1</code> and 3 times in <code>Menu2</code>.  The words in the linked list are in alphabetical order.
-	</p>
+	stores the number of times the word has been seen in each file, and a 
+	pointer to the next element of the list.  There is another data 
+	structure which is an array of strings, that stores the name of each 
+	file that is indexed.  The index of a file name corresponds to the index
+ 	of the <code>freq</code> array in a list node. Storing the file names separately 
+ 	means that we don't need to store the name of each file many times.</p>
+	
+	<p>In the diagram above, four words have been extracted from two files. 
+	The two files are called <code>Menu1</code> and <code>Menu2</code>. 
+	The linked list shows that the word spinach appears 2 times in the file 
+	<code>Menu1</code> and 6 times in the file <code>Menu2</code>. Similarly the word 
+	potato appears 11 times in the file <code>Menu1</code> and 3 times in <code>Menu2</code>. 
+	The words in the linked list are in alphabetical order.</p>
 	
 	<h2>Starter code</h2>
 
 	<p>Since this is your first C assignment, much of the machinery to 
-implement the data structure described above is given to you in the 
-files <code>freq_list.c</code> and <code>freq_list.h</code>.  These 
-files can be found in the a2 directory of your repository.  The only 
-function you need to write to complete the set of functions is <code>add_word()</code> (20%).  You should study these files carefully to understand how the code works and why certain decisions were made.</p>
+	implement the data structure described above is given to you in the 
+	files <code>freq_list.c</code> and <code>freq_list.h</code>.  These 
+	files can be found in the a2 directory of your repository.  The only 
+	function you need to write to complete the set of functions is 
+	<code>add_word()</code> (20%).  You should study these files carefully to 
+	understand how the code works and why certain decisions were made.</p>
 	
 	<h2>Indexing files (30%)</h2>
 	
 	<p>Your first task is to write a program that will build an index for 
-one or more files.  The names of the files to index are given as command
- line arguments.    The default name for the file that stores the array 
-of file names is <code>filenames</code> and the default name for the file that stores the index is <code>index</code>.  These names can be modified through optional command line arguments as follows:</p>
+	one or more files.  The names of the files to index are given as command
+ 	line arguments. The default name for the file that stores the array 
+	of file names is <code>filenames</code> and the default name for the file 
+	that stores the index is <code>index</code>.  These names can be modified 
+	through optional command line arguments as follows:</p>
+
 	<pre>indexfile [-i FILE] [-n FILE] FILE ...
 
 OPTIONS
     -i FILE
-        Write the linked list to FILE.  This overrides the default file name "index".
+       	Write the linked list to FILE.  This overrides the default file name "index".
     -n FILE
-        Write the array of file names to FILE.  This overrides the default file name "filenames".
+       	Write the array of file names to FILE.  This overrides the default file name "filenames".
 	</pre>
 	
-<p> The code that handles the options is given to you in <code>indexfile.c</code>.  You can use it as a template for reading in arguments.  You must use <code>getopt</code> to process the command line arguments.  Please see the examples online and in tutorial for how to use <code>getopt.</code></p>
+	<p>The code that handles the options is given to you in <code>indexfile.c</code>. 
+	You can use it as a template for reading in arguments. You must use <code>getopt</code> 
+	to process the command line arguments. Please see the examples online and in tutorial for 
+	how to use <code>getopt.</code></p>
 
-<p>A Makefile is given to you as well.  At this point, you should be able to run <code>make indexfile</code> and an executable file will be generated for <code>indexfile</code>. (Note that <code>make</code> with no arguments will not work until you write <code>query.c</code>).</p>
+	<p>A Makefile is given to you as well.  At this point, you should be able to run <code>make 
+	indexfile</code> and an executable file will be generated for <code>indexfile</code>. 
+	(Note that <code>make</code> with no arguments will not work until you write <code>query.c</code>).</p>
 	
-<p>If <code>indexfile</code> does not encounter any errors it will 
-produce no output on standard output.  It will simply create and write 
-to the files.  If the files already exist, they will be overwritten.  
-Your program should read each file one line at a time and break the line
- up into words.  You might consider using <code>strsep</code> or <code>strtok</code> to break a line into words.</p>
+	<p>If <code>indexfile</code> does not encounter any errors it will produce no output on standard output. 
+	It will simply create and write to the files.  If the files already exist, they will be overwritten. Your 
+	program should read each file one line at a time and break the line up into words.  You might consider 
+	using <code>strsep</code> or <code>strtok</code> to break a line into words.</p>
 
 	<h2>Removing punctuation and converting uppercase letters (10%)</h2>
-	<p>If you just use <code>strsep</code> or  <code>strtok</code> to break a line into words, the punctuation will go along with each word and "hello!" and "hello" will be two different words.</p> 
-	<p>Write a function that will remove punctuation characters from the 
-beginning and endings of words.  Your function should take a string an 
-and argument and return a pointer to a copy of the string with the 
-punctuation removed.  Note that there may be multiple punctuation 
-characters at the beginning and end of a words.  A punctuation character
- is anything that is not a letter and is not a number. Your function 
-will also change all uppercase letters to lowercase letters. Hint, there
- are built in functions that will make this an easy task.</p>
+	<p>If you just use <code>strsep</code> or  <code>strtok</code> to break a line into words, the punctuation 
+	will go along with each word and "hello!" and "hello" will be two different words.</p> 
+	
+	<p>Write a function that will remove punctuation characters from the beginning and endings of words. 
+	Your function should take a string an and argument and return a pointer to a copy of the string with the 
+	punctuation removed.  Note that there may be multiple punctuation characters at the beginning and end of a 
+	words. A punctuation character is anything that is not a letter and is not a number. Your function 
+	will also change all uppercase letters to lowercase letters. Hint, there are built in functions that will 
+	make this an easy task.</p>
 	
 	<p>Incorporate your function into your <code>indexfile</code> program.</p>
 	
 	<h2>Querying the index (30%)</h2>
 	
 	<p>Now that you have a program to create an index, write a program called <code>query</code>
- that takes one word as an argument and writes to standard output the 
-list of files containing the word ordered by the number of occurrences 
-of the word in the file.  Each line of output will be the frequency 
-followed by the filename.  For example, if we ran <code>query spinach</code> using the index above, the output would be:</p>
-	<pre>6 Menu2
+ 	that takes one word as an argument and writes to standard output the 
+	list of files containing the word ordered by the number of occurrences 
+	of the word in the file.  Each line of output will be the frequency 
+	followed by the filename.  For example, if we ran <code>query spinach</code> using the index above, the output would be:</p>
+	
+	<pre>
+6 Menu2 
 2 Menu1
 	</pre>
 	
@@ -101,57 +118,61 @@ followed by the filename.  For example, if we ran <code>query spinach</code> usi
 	<h2>Code critique (10%)</h2>
 	
 	<p>In a file named <code>critique.txt</code>, write a short (no more 
-than 250 words) critique of the starter code given to you. A critique is
- a critical evaluation.  It can be both positive and negative. The 
-issues you should be considering when thinking about your critique in 
-the case are </p>
+	than 250 words) critique of the starter code given to you. A critique is
+ 	a critical evaluation.  It can be both positive and negative. The 
+	issues you should be considering when thinking about your critique in 
+	the case are </p>
+	
 	<ul>
 		<li>Error handling: Does the code handle errors appropriately? Are there missing cases?</li>
 		<li>Data structure design: What are the advantages and disadvantages 
-of the chosen data structures? Think about performance, space, and the 
-flexibility in terms of adding new features.</li>
+		of the chosen data structures? Think about performance, space, and the 
+		flexibility in terms of adding new features.</li>
 		<li>Function design: Are the given functions at the appropriate level?
-  Could they be redesigned to be more readable or more usable? Can you 
-suggest improvements?</li>
-		</ul>
+  		Could they be redesigned to be more readable or more usable? Can you 
+		suggest improvements?</li>
+	</ul>
+	
 	<p>We will do an example critique in class in the week of Feb 6.  If 
-you can't make it to class, please ask a friend to take notes for you.  
-There are two reasons to ask you to write a critique: to give you more 
-practice explaining code in written English, and to give you a reason to
- study the starter code more thoroughly.</p>
+	you can't make it to class, please ask a friend to take notes for you.  
+	There are two reasons to ask you to write a critique: to give you more 
+	practice explaining code in written English, and to give you a reason to
+ 	study the starter code more thoroughly.</p>
 	
 	<p>The critique should be professional in tone.  Don't be rude; don't 
-insult; don't be sarcastic. The point is to identify strengths and 
-weaknesses in the code, and to demonstrate your understanding.</p>
+	insult; don't be sarcastic. The point is to identify strengths and 
+	weaknesses in the code, and to demonstrate your understanding.</p>
 	
 	<p>Your critique will be graded on the quality of the writing, how 
-clearly you make your arguments, and your choice of things to critique. 
-The emphasis in the marking scheme will be on the clarity of the 
-arguments and the structure of your writing.  You should write in full 
-sentences, not point form.  and you may assume that the reader is a 
-knowledgeable C programmer. Note that 250 words is not a lot of text, so
- you will need to pick a small number of points to make, and you will 
-not be able to carry out an exhaustive review.</p>
+	clearly you make your arguments, and your choice of things to critique. 
+	The emphasis in the marking scheme will be on the clarity of the 
+	arguments and the structure of your writing.  You should write in full 
+	sentences, not point form.  and you may assume that the reader is a 
+	knowledgeable C programmer. Note that 250 words is not a lot of text, so
+ 	you will need to pick a small number of points to make, and you will 
+	not be able to carry out an exhaustive review.</p>
 	
-<p>We are not going to be sticklers on precisely the 250 work limit, but
- if you go over by too much, you will not receive full marks.</p>
+	<p>We are not going to be sticklers on precisely the 250 work limit, but
+ 	if you go over by too much, you will not receive full marks.</p>
 		
 	<h2>What to hand in</h2>
 	
-	<p>Commit to your repository under a2 all of the files that are needed to run <code>query</code> and <code>indexfile</code>, and your <code>critique.txt</code>.  A <code>Makefile</code> has been provided. The markers must be able to run <code>make</code>such that both programs are compiled with no warnings.  You may need to modify the Makefile to add more source code files.</p>
+	<p>Commit to your repository under a2 all of the files that are needed to run 
+	<code>query</code> and <code>indexfile</code>, and your <code>critique.txt</code>. 
+	A <code>Makefile</code> has been provided. The markers must be able to run 
+	<code>make</code>such that both programs are compiled with no warnings.  You may need 
+	to modify the Makefile to add more source code files.</p>
 	
 	<p>Coding style and comments are just as important in 209 as they were 
-in previous courses.  Use good variable names, appropriate functions, 
-and descriptive comments.</p>
+	in previous courses.  Use good variable names, appropriate functions, 
+	and descriptive comments.</p>
 	
 	<p>Please remember that if you submit code that does not compile, it 
-will receive a grade of 0. The best way to avoid this potential problem 
-is to write your code incrementally.  For example, the starter code 
-compiles and solves one small piece of the problem which can be checked.
-  Get a small piece working, commit it, and the move on to the next 
-piece.  This is a much better approach than writing a whole bunch of 
-code and the spending a lot of time debugging it step by step.</p>
-	
-
-
-</body></html>
+	will receive a grade of 0. The best way to avoid this potential problem 
+	is to write your code incrementally.  For example, the starter code 
+	compiles and solves one small piece of the problem which can be checked.
+  	Get a small piece working, commit it, and the move on to the next 
+	piece.  This is a much better approach than writing a whole bunch of 
+	code and the spending a lot of time debugging it step by step.</p>
+</body>
+</html>
